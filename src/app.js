@@ -2,7 +2,8 @@ const express = require('express');
 const path = require('path');
 
 const hbs = require('hbs');
-
+const geocode = require('./utils/geocode');
+const forecast = require('./utils/forecast');
 
 const app = express();
 
@@ -36,9 +37,43 @@ app.get('/about', (req, res) => {
     })
 })
 
-app.get('/weather', (req, res) => {
-    res.render('weather', {
+app.get('/products', (req, res) => {
+    if (!req.query.search){
+        return res.send({ 
+            error: "Search term missing"
+        })
+    }
 
+    res.send({
+        products: []
+    })
+})
+
+app.get('/weather', (req, res) => {
+    if (!req.query.address){
+        return res.send({
+            "error": "address not provided"
+        })
+
+    }
+    geocode(req.query.address, (error, { lattitude, longitude, location}) => {
+        if (error){
+            return res.send({
+                error
+            })
+
+            forecast(latitude, longitude, (error, forecastData) => {
+                if (error){
+                    res.send({ error })
+                }
+                res.send({
+                    forecast: forecastData,
+                    location,
+                    address: req.query.address
+                })
+
+            })
+        }
     })
 })
 
