@@ -43,7 +43,11 @@ app.get('/weather', (req, res) => {
 
 
 app.get('*', (req, res) => {
-    res.send("My 404 page");
+    res.render('404', {
+        title: "Not Found",
+        name: "Casey", 
+        message: "What are you doing here?"
+    })
 
 })
 
