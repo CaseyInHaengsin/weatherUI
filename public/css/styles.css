@@ -4,6 +4,9 @@ body {
     max-width: 650px;
     margin: 0 auto;
     padding: 0 16px;
+    display: flex;
+   flex-direction: column;
+   min-height: 100vh;
     
 }
 
@@ -12,6 +15,11 @@ footer {
    border-top: 1px solid #eeeeee; 
    margin-top: 16px;
    padding: 16px 0;
+   
+}
+
+.main-content {
+    flex-grow: 1;
 }
 
 header { 
